@@ -709,7 +709,7 @@ Resources:
                 
         def validate_hash(set_hostname, source_ip, validation_hash, shared_secret):
             # Calculate the validation hash.
-            calculated_hash = hashlib.sha256(
+            calculated_hash = hashlib.md5(
                 source_ip + set_hostname + shared_secret).hexdigest()
             # Compare the validation_hash from the client to the
             # calculated_hash.
@@ -898,11 +898,11 @@ Resources:
                                'return_message': return_message}
                                
             if not execution_mode == 'get':
-                # Validate that the client passed a sha256 hash
+                # Validate that the client passed a md5 hash
                 # regex checks for a 64 character hex string.
-                if not re.match(r'[0-9a-fA-F]{64}', validation_hash):
+                if not re.match(r'[0-9a-fA-F]{32}', validation_hash):
                     return_status = 'fail'
-                    return_message = 'You must pass a valid sha256 hash in the '\
+                    return_message = 'You must pass a valid md5 hash in the '\
                         'hash= argument.'
                     return {'return_status': return_status,
                             'return_message': return_message}
